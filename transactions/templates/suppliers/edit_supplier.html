@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+
+{% block title %} {{title}} {% endblock title %}
+
+
+{% block content %}
+
+<div class="mb-4 pb-2 border-bottom">
+    <h1 class="text-primary font-weight-bold" style="font-size: 2.2rem;">
+        {{ title }}
+    </h1>
+</div>
+
+<form method="post" class="p-4 shadow-sm bg-white rounded">
+    
+    {% csrf_token %}
+
+    {{ form.non_field_errors }}
+
+    <!-- Display Field Errors -->
+    {{ form.name.errors }}
+    {{ form.phone.errors }}
+    {{ form.address.errors }}
+    {{ form.email.errors }}
+    {{ form.gstin.errors }}
+
+    <!-- Name -->
+    <div class="form-group">
+        <label class="font-weight-semibold" for="{{ form.name.id_for_label }}">Name</label>
+        {{ form.name|add_class:"form-control" }}
+    </div>
+
+    <!-- Phone + Email -->
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label class="font-weight-semibold" for="{{ form.phone.id_for_label }}">Phone No</label>
+            {{ form.phone|add_class:"form-control" }}
+        </div>
+
+        <div class="form-group col-md-6">
+            <label class="font-weight-semibold" for="{{ form.email.id_for_label }}">Email ID</label>
+            {{ form.email|add_class:"form-control" }}
+        </div>
+    </div>
+
+    <!-- Address -->
+    <div class="form-group">
+        <label class="font-weight-semibold" for="{{ form.address.id_for_label }}">Address</label>
+        {{ form.address|add_class:"form-control" }}
+    </div>
+
+    <!-- GSTIN -->
+    <div class="form-group">
+        <label class="font-weight-semibold" for="{{ form.gstin.id_for_label }}">GSTIN No</label>
+        {{ form.gstin|add_class:"form-control" }}
+    </div>
+
+    <div class="text-center mt-4">
+
+        <button type="submit" class="btn btn-success px-4">{{ savebtn }}</button>
+
+        {% if title == "New Supplier" %}
+            <button type="reset" class="btn btn-warning text-white px-4">Reset</button>
+        {% endif %}
+
+        {% if delbtn %}
+            <a href="{% url 'delete-supplier' supplier.pk %}" class="btn btn-danger px-4">
+                Delete Supplier
+            </a>
+        {% endif %}
+
+        <a href="{% url 'suppliers-list' %}" class="btn btn-secondary px-4">Cancel</a>
+    </div>
+
+</form>
+
+
+    
+
+{% endblock content %}

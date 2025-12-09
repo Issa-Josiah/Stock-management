@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+
+{% block title %} About {% endblock title %}
+
+
+{% block content %}
+    
+
+    <style>
+    body {
+        background-color: #b6dffcff; /* Light Blue */
+    }
+</style>
+
+{% if not user.is_authenticated %}
+    <div class="mt-3">
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+            ← Go Back
+        </a>
+    </div>
+{% endif %}
+
+<div class="container text-center mt-5">
+
+    <!-- Title -->
+    <h1 class="fw-bold" style="color:#0d47a1; font-size:3rem;">IMS</h1>
+    <p class="text-muted fs-5">An Inventory Management System</p>
+
+    <hr class="my-4" style="border-top: 2px solid #0d47a1; width: 200px; margin-left:auto; margin-right:auto;">
+
+    <!-- About Section -->
+    <div class="mt-4">
+        <h2 class="fw-bold" style="color:#0d47a1">| About |</h2>
+        <p class="mt-3 px-5 text-secondary fs-6">
+            IMS is a simple inventory management software created for the needs of a company.
+            It keeps track of incoming and outgoing stock with dynamically generated bills.
+            Each supplier gets their own profile to view their transaction history.
+        </p>
+    </div>
+
+    <hr class="my-4" style="border-top: 2px solid #0d47a1; width: 200px; margin-left:auto; margin-right:auto;">
+
+    <!-- Features -->
+    <div class="mt-4">
+        <h2 class="fw-bold" style="color:#0d47a1">| Features |</h2>
+
+        <ul class="list-group mt-3 mx-auto" style="max-width: 600px;">
+            <li class="list-group-item">Interactive stock chart</li>
+            <li class="list-group-item">Track current available stock</li>
+            <li class="list-group-item">Record incoming transactions via purchases</li>
+            <li class="list-group-item">Record outgoing transactions via sales</li>
+            <li class="list-group-item">Save all transaction history</li>
+            <li class="list-group-item">Auto-generated printable bill</li>
+            <li class="list-group-item">Dedicated supplier profiles</li>
+        </ul>
+    </div>
+
+    <hr class="my-4" style="border-top: 2px solid #0d47a1; width: 200px; margin-left:auto; margin-right:auto;">
+
+    <!-- Developer -->
+    <div class="mt-4 mb-5">
+        <h2 class="fw-bold" style="color:#0d47a1">| Developer |</h2>
+        <p class="fs-6 text-secondary mt-3">Kevina Bunei</p>
+    </div>
+
+</div>
+
+
+{% endblock content %}

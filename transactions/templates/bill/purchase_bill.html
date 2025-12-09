@@ -1,0 +1,299 @@
+{% extends bill_base %}
+{% load static %}
+
+
+{% block title %} Purchases Bill No : {{ bill.billno }}{% endblock title %}
+
+
+{% block content %}
+
+<!-- ========================= INTERNAL CSS ========================= -->
+<style>
+    .invoice-title {
+        color: #2c3e50;
+        font-weight: 700;
+        font-size: 2.5rem;
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
+    .invoice-container {
+        background: #f8f9fc;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .outer-box {
+        border: 2px solid #34495e;
+        border-collapse: collapse;
+    }
+
+    .inner-box {
+        border: 1px solid #2c3e50;
+        padding: 6px;
+        font-size: 14px;
+    }
+
+    table {
+        background: white;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        background: transparent;
+        border: 0;
+        padding-left: 5px;
+    }
+
+    input[type="text"]:focus {
+        outline: none;
+        border-bottom: 1px dashed #3498db;
+    }
+
+    /* BUTTON AREA */
+    .wrapper {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .center {
+        margin: 5px 10px;
+        padding: 10px 25px;
+        font-weight: 600;
+        border-radius: 6px;
+    }
+
+    /* HEADER COMPANY NAME */
+    .company-name {
+        font-size: 3rem;
+        font-weight: 800;
+        color: #2c3e50;
+        letter-spacing: 2px;
+    }
+
+    .company-subtext {
+        font-size: 18px;
+        color: #555;
+        font-weight: 600;
+    }
+</style>
+
+<!-- ========================= PAGE TITLE ========================= -->
+<div class="invoice-title">
+    Purchase Bill No : {{ bill.billno }}
+</div>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="invoice-container">
+
+        <div id="printArea">
+
+            <table class="outer-box inner-box" style="width: 840px; margin-left:auto; margin-right:auto;">
+                <tbody>
+
+                    <!-- HEADER -->
+                    <tr>
+                        <td style="text-align:center;">
+                            <p style="margin:0; font-size:20px; font-weight:bold;">TAX INVOICE - PURCHASE</p>
+                        </td>
+                    </tr>
+
+                    <!-- COMPANY DETAILS -->
+                    <tr style="text-align:center;">
+                        <td>
+                            <span class="company-name">INVENTORY PRO SYSTEM</span><br>
+                            <span class="company-subtext">Dealers in General Products</span><br>
+                            <b>REGD ADDRESS:</b> 971 Center Street, Umatilla, OR 97882<br>
+                            <b>EMAIL:</b> support@inventorypro.com<br><br>
+                        </td>
+                    </tr>
+
+                    <!-- SUPPLIER & INVOICE BLOCK -->
+                    <tr>
+                        <td>
+                            <table class="outer-box" style="width:800px; margin:auto;">
+                                <tbody>
+
+                                    <tr>
+                                        <td class="inner-box" colspan="3" style="text-align:center; font-weight:bold;">
+                                            GSTIN NO – 12345678900XYZ
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="inner-box" style="font-weight:bold;">NAME OF SUPPLIER</td>
+                                        <td class="inner-box" style="font-weight:bold;">INVOICE NO</td>
+                                        <td class="inner-box">{{ bill.billno }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="inner-box">{{ bill.supplier.name }}</td>
+                                        <td class="inner-box" style="font-weight:bold;">DATE</td>
+                                        <td class="inner-box">{{ bill.time.date }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="inner-box" rowspan="3">{{ bill.supplier.address|linebreaks }}</td>
+                                        <td class="inner-box" style="font-weight:bold;">EWAY NO</td>
+                                        <td class="inner-box">
+                                            <input type="text" name="eway" value="{{ billdetails.eway }}">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="inner-box" style="font-weight:bold;">VEH NO</td>
+                                        <td class="inner-box">
+                                            <input type="text" name="veh" value="{{ billdetails.veh }}">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="inner-box" style="font-weight:bold;">DESTINATION</td>
+                                        <td class="inner-box">
+                                            <input type="text" name="destination" value="{{ billdetails.destination }}">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="inner-box"><b>GSTIN No:</b> {{ bill.supplier.gstin }}</td>
+                                        <td class="inner-box" style="font-weight:bold;">PO NO & DATE</td>
+                                        <td class="inner-box">
+                                            <input type="text" name="po" value="{{ billdetails.po }}">
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- ITEMS TABLE -->
+                    <tr>
+                        <td>
+                            <table class="outer-box" style="width:800px; margin:auto;">
+                                <tbody>
+
+                                    <tr>
+                                        <td class="inner-box" style="font-weight:bold; text-align:center;">SL</td>
+                                        <td class="inner-box" style="font-weight:bold; text-align:center;">GOODS</td>
+                                        <td class="inner-box" style="font-weight:bold; text-align:center;">HSN/SAC</td>
+                                        <td class="inner-box" style="font-weight:bold; text-align:center;">QTY</td>
+                                        <td class="inner-box" style="font-weight:bold; text-align:center;">RATE</td>
+                                        <td class="inner-box" style="font-weight:bold; text-align:center;">AMOUNT</td>
+                                        <td class="inner-box" style="font-weight:bold; text-align:center;">PS</td>
+                                    </tr>
+
+                                    {% for item in items %}
+                                    <tr>
+                                        <td class="inner-box">{{ forloop.counter }}</td>
+                                        <td class="inner-box">{{ item.stock.name }}</td>
+                                        <td class="inner-box"></td>
+                                        <td class="inner-box">{{ item.quantity }}</td>
+                                        <td class="inner-box">{{ item.perprice }}</td>
+                                        <td class="inner-box">{{ item.totalprice }}</td>
+                                        <td class="inner-box">0</td>
+                                    </tr>
+                                    {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- TAX BLOCK -->
+                    <tr>
+                        <td>
+                            <table class="outer-box inner-box" style="width:800px; margin:auto;">
+                                <tbody>
+
+                                    <tr>
+                                        <td class="inner-box" rowspan="6" style="text-align:center;">
+                                            <b>BANK DETAILS<br>Inventory Pro</b><br>
+                                            WestView Bank<br>
+                                            AC NO: 5476 5314 7850 003<br>
+                                            IFSC: ABCD0100110<br>
+                                            PH: 541-010-0400
+                                        </td>
+
+                                        <td class="inner-box"><b>CGST @ 2.5%</b></td>
+                                        <td class="inner-box">
+                                            <input type="text" name="cgst" value="{{ billdetails.cgst }}">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="inner-box"><b>SGST @ 2.5%</b></td>
+                                        <td class="inner-box">
+                                            <input type="text" name="sgst" value="{{ billdetails.sgst }}">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="inner-box"><b>IGST @ 5%</b></td>
+                                        <td class="inner-box">
+                                            <input type="text" name="igst" value="{{ billdetails.igst }}">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="inner-box"><b>CESS @ 400/PMT</b></td>
+                                        <td class="inner-box">
+                                            <input type="text" name="cess" value="{{ billdetails.cess }}">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="inner-box"><b>TCS @ 1%</b></td>
+                                        <td class="inner-box">
+                                            <input type="text" name="tcs" value="{{ billdetails.tcs }}">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="inner-box"><b>TOTAL</b></td>
+                                        <td class="inner-box">
+                                            <input type="text" name="total" value="{{ billdetails.total }}">
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- SIGNATURE -->
+                    <tr>
+                        <td style="text-align:right; padding-top:20px;">
+                            <b>FOR COMPANY<br><br><br>Signature</b>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <div class="wrapper">
+        <button class="center btn btn-primary" onclick="printpage('printArea')">Print</button>
+        <button class="center btn btn-success" type="submit">Save Draft</button>
+        <a href="{% url 'purchases-list' %}" class="btn btn-secondary center">Go Back</a>
+    </div>
+
+</form>
+
+
+<script>
+    function printpage(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+</script>
+
+{% endblock %}

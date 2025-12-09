@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+
+{% block title %} Delete Supplier {% endblock title %}
+
+
+{% block content %}
+                
+    <form method="post" class="p-4 shadow-sm rounded bg-white">
+    {% csrf_token %}
+
+    <fieldset class="form-group text-center">
+        <h1 class="display-5 text-danger font-weight-bold border-bottom pb-2">
+            Delete Supplier
+        </h1>
+
+        <p class="mt-3 text-secondary" style="font-size: 1.2rem;">
+            Are you sure you want to permanently delete 
+            <span class="font-weight-bold text-dark">"{{ object.name }}"</span>?
+        </p>
+    </fieldset>
+
+    <div class="form-group text-center mt-4">
+        <button type="submit" class="btn btn-danger px-4 py-2">
+            <i class="fas fa-trash-alt"></i> Yes, Delete
+        </button>
+
+        <a href="{% url 'suppliers-list' %}" class="btn btn-secondary px-4 py-2 ml-2">
+            <i class="fas fa-times"></i> Cancel
+        </a>
+    </div>
+</form>
+
+
+{% endblock content %}

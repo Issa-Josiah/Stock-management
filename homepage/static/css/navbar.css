@@ -1,0 +1,74 @@
+/* GLOBAL BODY BACKGROUND */
+body {
+    background: #e9f2ff; /* light soft blue */
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* NAVBAR BASE */
+.navbar {
+    padding: 10px 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* BRAND NAME */
+.navbar-brand {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff !important;
+}
+
+/* NAV LINKS */
+.navbar-nav .nav-link {
+    color: #ffffff !important;
+    font-size: 15px;
+    padding: 8px 14px;
+    transition: 0.3s ease-in-out;
+}
+
+/* HOVER EFFECT */
+.navbar-nav .nav-link:hover {
+    background: rgba(255,255,255,0.15);
+    border-radius: 6px;
+}
+
+/* DROPDOWN MENU */
+.dropdown-menu {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 8px 0;
+    border: 1px solid #cbdcf6;
+    min-width: 210px;
+}
+
+/* DROPDOWN ITEMS */
+.dropdown-menu .dropdown-item {
+    padding: 10px 18px;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+/* DROPDOWN ITEM HOVER */
+.dropdown-menu .dropdown-item:hover {
+    background: #e8f0ff;
+    color: #003e7f !important;
+}
+
+/* ICON SPACING */
+.nav-link i,
+.dropdown-item i {
+    margin-right: 8px;
+}
+
+/* RIGHT-ALIGNED USER MENU */
+.navbar-nav.ml-auto .nav-link {
+    padding-right: 18px;
+}
+
+/* MOBILE NAVBAR FIXES */
+.navbar-toggler {
+    border-color: #ffffff;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28 255, 255, 255, 1 %29)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/ %3E%3C/svg%3E");
+}
